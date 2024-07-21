@@ -33,10 +33,6 @@ rm -rf ./package/network/config/firewall4
 cp -rf ../openwrt_ma/package/network/config/firewall4 ./package/network/config/firewall4
 
 ### 必要的 Patches ###
-# PPPOE offloadfix
-wget https://github.com/openwrt/openwrt/raw/98834a4c3f81c6e4f20329ff266f9bd85731d114/target/linux/generic/backport-5.15/741-v6.9-01-netfilter-flowtable-validate-pppoe-header.patch -O target/linux/generic/backport-5.15/741-v6.9-01-netfilter-flowtable-validate-pppoe-header.patch
-wget https://github.com/openwrt/openwrt/raw/98834a4c3f81c6e4f20329ff266f9bd85731d114/target/linux/generic/backport-5.15/741-v6.9-02-netfilter-flowtable-incorrect-pppoe-tuple.patch -O target/linux/generic/backport-5.15/741-v6.9-02-netfilter-flowtable-incorrect-pppoe-tuple.patch
-wget https://github.com/openwrt/openwrt/raw/98834a4c3f81c6e4f20329ff266f9bd85731d114/target/linux/generic/hack-5.15/650-netfilter-add-xt_FLOWOFFLOAD-target.patch -O target/linux/generic/hack-5.15/650-netfilter-add-xt_FLOWOFFLOAD-target.patch
 # TCP optimizations
 cp -rf ../PATCH/backport/TCP/* ./target/linux/generic/backport-5.15/
 # x86_csum
@@ -132,6 +128,8 @@ git clone -b master --depth 1 https://github.com/QiuSimons/luci-app-daed package
 # btf
 wget -qO - https://github.com/immortalwrt/immortalwrt/commit/73e5679.patch | patch -p1
 wget https://github.com/immortalwrt/immortalwrt/raw/openwrt-23.05/target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch -O target/linux/generic/backport-5.15/051-v5.18-bpf-Add-config-to-allow-loading-modules-with-BTF-mismatch.patch
+# bpf_loop
+cp -f ../PATCH/bpf_loop/*.patch ./target/linux/generic/backport-5.15/
 # mount cgroupv2
 pushd feeds/packages
 patch -p1 <../../../PATCH/cgroupfs-mount/0001-fix-cgroupfs-mount.patch
